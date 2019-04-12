@@ -1,0 +1,13 @@
+- name: Copy processes.json template
+  template: src=processes.j2 dest={{ appdir }}/processes.json owner={{ userweb }} group={{ userweb }} mode="u=rw,g=r,o=r"
+
+- name: Copy a service template to /etc/systemd/system
+  template: src=service.j2 dest=/etc/systemd/system/{{ appname }}.service owner={{ userweb }} group={{ userweb }} mode="u=rw,g=r,o=r"
+
+- name: Reload systemd
+  shell: systemctl daemon-reload
+  changed_when: false
+
+- name: Enable Service
+  service: name={{ appname }} state=restarted enabled=yes
+  changed_when: false

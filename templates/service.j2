@@ -1,0 +1,18 @@
+[Unit]
+Description=Start {{ appname }} app with PM2
+After=network.target remote-fs.target
+After=postgresql.service
+After=nginx.service
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/pm2 start {{ appdir }}/processes.json
+WorkingDirectory={{ appdir }}
+Restart=always
+RestartSec=5
+User={{ userweb }}
+Environment=PATH=/usr/bin/node:/usr/bin:/usr/local/bin
+Environment=NODE_ENV={{ node_env }}
+
+[Install]
+WantedBy=multi-user.target
