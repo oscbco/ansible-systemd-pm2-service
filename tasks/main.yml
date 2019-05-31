@@ -1,13 +1,22 @@
 - name: Copy processes.json template
   template: src=processes.j2 dest={{ appdir }}/processes.json owner={{ userweb }} group={{ userweb }} mode="u=rw,g=r,o=r"
+  when: disabled is not defined
 
 - name: Copy a service template to /etc/systemd/system
   template: src=service.j2 dest=/etc/systemd/system/{{ appname }}.service owner={{ userweb }} group={{ userweb }} mode="u=rw,g=r,o=r"
+  when: disabled is not defined
 
 - name: Reload systemd
   shell: systemctl daemon-reload
+  when: disabled is not defined
   changed_when: false
 
 - name: Enable Service
   service: name={{ appname }} state=restarted enabled=yes
+  when: disabled is not defined
+  changed_when: false
+
+- name: Disable Service
+  service: name={{ appname }} enabled=no
+  when: disabled is defined
   changed_when: false
