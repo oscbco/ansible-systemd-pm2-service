@@ -1,6 +1,10 @@
-- name: Copy processes.json template
-  template: src=processes.j2 dest={{ appdir }}/processes.json owner={{ userweb }} group={{ userweb }} mode="u=rw,g=r,o=r"
-  when: disabled is not defined
+- name: Copy processes-production.j2 template
+  template: src=processes-production.j2 dest={{ appdir }}/processes.json owner={{ userweb }} group={{ userweb }} mode="u=rw,g=r,o=r"
+  when: disabled is not defined and production is defined
+
+- name: Copy processes-development.j2 template
+  template: src=processes-development.j2 dest={{ appdir }}/processes.json owner={{ userweb }} group={{ userweb }} mode="u=rw,g=r,o=r"
+  when: disabled is not defined and production is not defined
 
 - name: Copy a service template to /etc/systemd/system
   template: src=service.j2 dest=/etc/systemd/system/{{ appname }}.service owner={{ userweb }} group={{ userweb }} mode="u=rw,g=r,o=r"

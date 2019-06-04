@@ -1,0 +1,13 @@
+{
+  "apps" : [{
+    "name"         : "{{ appname }}",
+    "script"       : "{{ appdir }}/bin/www",
+    "instances"    : 2,
+    "exec_mode"    : "cluster",
+    "watch"        : true,
+    "ignore_watch" : ["node_modules", "public"],
+    "watch_options": {
+      "usePolling": true
+    }
+  }]
+}
