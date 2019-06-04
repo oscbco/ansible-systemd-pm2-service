@@ -2,12 +2,15 @@
   "apps" : [{
     "name"         : "{{ appname }}",
     "script"       : "{{ appdir }}/bin/www",
-    "instances"    : 2,
-    "exec_mode"    : "cluster",
+    "instances"    : 1,
+    "exec_mode"    : "fork",
     "watch"        : true,
     "ignore_watch" : ["node_modules", "public"],
     "watch_options": {
       "usePolling": true
+    },
+    env: {
+      "NODE_OPTIONS": "--inspect=0.0.0.0:7000"
     }
   }]
 }
